@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selekta · Contratación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: producto terminado, claro y seguro; habla como una app que ya está en uso.
+   IDEA: la contratación como una línea de metro: cada persona viaja de estación en estación.
+   PICTURE: la línea azul con estaciones (Postulación → Análisis → Jefe → RH → Oferta).
+   COLOUR/TYPE: blanco, azul #0a5cff, rojo #e6261f, ámbar #ffb400, verde #00a05a; Figtree.
+   LAYOUT: una columna tipo app de celular, barra inferior, pantallas por #nombre. */
+:root{color-scheme:light dark;
+--bg:light-dark(#ffffff,#0e1116);--ink:light-dark(#111418,#eef1f6);--mut:light-dark(#5b6472,#9aa4b4);
+--card:light-dark(#f4f6fa,#171b23);--line:light-dark(#e3e7ee,#262c38);
+--blue:#0a5cff;--red:#e6261f;--amber:#ffb400;--green:#00a05a;--on:#fff}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif;overflow-x:clip;-webkit-tap-highlight-color:transparent}
+.app{max-width:560px;margin:0 auto;min-height:100%;padding-bottom:88px;position:relative}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:12px 16px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:19px;letter-spacing:-.02em;cursor:pointer}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--blue);display:grid;place-items:center}
+.logo i:after{content:"";width:10px;height:10px;border-radius:50%;border:3px solid #fff}
+.sp{flex:1}
+.ib{width:44px;height:44px;border-radius:12px;border:0;background:var(--card);color:var(--ink);display:grid;place-items:center;position:relative;cursor:pointer}
+.ib b{position:absolute;top:6px;right:6px;min-width:18px;height:18px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;display:grid;place-items:center;padding:0 4px}
+.back{font-size:22px}
+main{padding:18px 16px 24px}
+h1{font-size:32px;line-height:1.05;margin:4px 0 10px;letter-spacing:-.025em;text-wrap:balance}
+h2{font-size:21px;line-height:1.15;margin:22px 0 10px;letter-spacing:-.01em}
+p{margin:0 0 12px}.mut{color:var(--mut)}.sm{font-size:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;border-radius:14px;border:0;font:600 17px Figtree,sans-serif;background:var(--blue);color:#fff;cursor:pointer;padding:0 18px;text-decoration:none}
+.btn.alt{background:var(--card);color:var(--ink)}
+.btn.red{background:var(--red)}.btn.green{background:var(--green)}
+.btn:disabled{opacity:.45}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1 1 140px}
+.card{background:var(--card);border-radius:18px;padding:16px;margin:0 0 12px}
+.tap{cursor:pointer;transition:transform .15s}.tap:active{transform:scale(.985)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--line);white-space:nowrap}
+.pill.b{background:color-mix(in srgb,var(--blue) 16%,transparent);color:var(--blue)}
+.pill.g{background:color-mix(in srgb,var(--green) 16%,transparent);color:var(--green)}
+.pill.a{background:color-mix(in srgb,var(--amber) 22%,transparent);color:light-dark(#8a5d00,#ffcf5c)}
+.pill.r{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+label.f{display:block;font-weight:600;font-size:15px;margin:14px 0 6px}
+input,select,textarea{width:100%;font:16px Figtree,sans-serif;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;min-height:48px}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus,.btn:focus-visible,.ib:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px 14px;font:600 15px Figtree,sans-serif;cursor:pointer;min-height:44px}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.sk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.lv{display:flex;gap:4px}
+.lv button{width:34px;height:34px;border-radius:9px;border:1.5px solid var(--line);background:var(--bg);color:var(--mut);font:600 14px Figtree,system-ui,sans-serif;cursor:pointer;padding:0}
+.lv button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.steps{display:flex;gap:6px;margin:4px 0 18px}.steps i{flex:1;height:6px;border-radius:3px;background:var(--line)}.steps i.on{background:var(--blue)}
+.av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;color:#fff;background-size:cover;background-position:center}
+.av.big{width:84px;height:84px;font-size:28px}
+.blind{filter:blur(9px)}
+.cand{display:flex;gap:12px;align-items:center}
+.score{margin-left:auto;text-align:right;flex:none}
+.score b{font-size:24px;line-height:1;display:block}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--blue);border-radius:4px}
+.req{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.req .ok{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:none;font-size:14px}
+.metro{width:100%;height:auto;display:block}
+.hero{background:var(--blue);color:#fff;border-radius:24px;padding:22px 18px 10px;margin-bottom:14px;overflow:hidden}
+.hero h1{color:#fff}.hero p{opacity:.9}
+.kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kpi .card{margin:0}.kpi b{font-size:clamp(26px,8vw,34px);display:block;line-height:1.1}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:30;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs div{max-width:560px;margin:0 auto;display:grid}
+nav.tabs button{border:0;background:none;color:var(--mut);font:600 12px Figtree,system-ui,sans-serif;padding:8px 2px 10px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;min-height:58px}
+nav.tabs button svg{width:24px;height:24px}
+nav.tabs button.on{color:var(--blue)}
+.toast{position:fixed;top:10px;left:50%;transform:translate(-50%,-140%);width:min(94vw,520px);z-index:60;background:light-dark(#fff,#1d222c);color:var(--ink);border-radius:18px;padding:12px 14px;box-shadow:0 12px 40px rgba(0,0,0,.25);display:flex;gap:12px;align-items:center;transition:transform .45s cubic-bezier(.2,.9,.3,1.2)}
+.toast.show{transform:translate(-50%,0)}
+.toast .logo i{width:36px;height:36px;border-radius:10px}
+.spin{width:72px;height:72px;margin:40px auto 18px;border-radius:50%;border:6px solid var(--line);border-top-color:var(--blue);animation:r 1s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}.toast{transition:none}}
+.qr{background:#fff;padding:16px;border-radius:18px;width:min(78vw,300px);margin:8px auto 14px;display:grid;place-items:center}
+.qr img,.qr canvas{width:100%!important;height:auto!important}
+.cmp{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);font-size:14px}
+.cmp>div{padding:9px 6px;border-bottom:1px solid var(--line)}.cmp .h{font-weight:800}
+.tl{position:relative;margin:6px 0 4px;padding-left:4px}
+.note{font-size:13px;color:var(--mut);margin-top:18px}
+.switch{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer}
+.switch input{width:22px;height:22px;min-height:0;flex:none;accent-color:var(--blue)}
+.empty{text-align:center;padding:26px 10px;color:var(--mut)}
+.trait{display:grid;grid-template-columns:8.5em minmax(0,1fr);gap:10px;align-items:center;font-size:14px;margin:6px 0}
+.fade{animation:f .25s ease}@keyframes f{from{opacity:0;transform:translateY(6px)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <button class="ib back" id="bk" aria-label="Atrás" style="display:none">‹</button>
+    <div class="logo" id="home"><i></i>Selekta</div><span id="dot" title="Conectando" style="width:9px;height:9px;border-radius:50%;background:var(--line);flex:none"></span><span class="pill b" id="rp" style="display:none"></span>
+    <div class="sp"></div>
+    <button class="ib" id="qrb" aria-label="Mostrar QR"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></button>
+    <button class="ib" id="bell" aria-label="Avisos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/></svg><b id="nb" style="display:none"></b></button>
+  </header>
+  <main id="v"></main>
+</div>
+<nav class="tabs"><div id="tabs"></div></nav>
+<div class="toast" id="toast"><div class="logo"><i></i></div><div><div class="sm mut" id="tt">Selekta · ahora</div><div id="tm" style="font-weight:600"></div></div></div>
+<script>
+const QR = (() => {
+  const ECC = [10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26], BLK = [1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16];
+  const raw = v => { let r = (16*v+128)*v+64; if (v >= 2) { const n = Math.floor(v/7)+2; r -= (25*n-10)*n-55; if (v >= 7) r -= 36; } return r; };
+  const dataCap = v => Math.floor(raw(v)/8) - ECC[v-1]*BLK[v-1];
+  const mul = (x, y) => { let z = 0; for (let i = 7; i >= 0; i--) { z = (z<<1) ^ ((z>>>7)*0x11D); z ^= ((y>>>i)&1)*x; } return z; };
+  const div = d => { const r = new Array(d).fill(0); r[d-1] = 1; let root = 1; for (let i = 0; i < d; i++) { for (let j = 0; j < d; j++) { r[j] = mul(r[j], root); if (j+1 < d) r[j] ^= r[j+1]; } root = mul(root, 2); } return r; };
+  const rem = (data, dv) => { const r = dv.map(() => 0); for (const b of data) { const f = b ^ r.shift(); r.push(0); dv.forEach((c, i) => r[i] ^= mul(c, f)); } return r; };
+  const bit = (x, i) => ((x>>>i)&1) !== 0;
+  function encode(text, forceMask){
+    const bytes = Array.from(new TextEncoder().encode(text));
+    let v = 1; while (v <= 20 && 4 + (v < 10 ? 8 : 16) + bytes.length*8 > dataCap(v)*8) v++;
+    if (v > 20) throw new Error("Texto muy largo para el QR");
+    const bits = []; const put = (val, n) => { for (let i = n-1; i >= 0; i--) bits.push((val>>>i)&1); };
+    put(4, 4); put(bytes.length, v < 10 ? 8 : 16); bytes.forEach(b => put(b, 8));
+    const cap = dataCap(v)*8; put(0, Math.min(4, cap - bits.length)); put(0, (8 - bits.length%8)%8);
+    for (let p = 0xEC; bits.length < cap; p ^= 0xEC ^ 0x11) put(p, 8);
+    const data = []; for (let i = 0; i < bits.length; i += 8) data.push(parseInt(bits.slice(i, i+8).join(""), 2));
+    // bloques + corrección de errores
+    const nb = BLK[v-1], el = ECC[v-1], rc = Math.floor(raw(v)/8), ns = nb - rc%nb, sl = Math.floor(rc/nb), dv = div(el);
+    const blocks = []; for (let i = 0, k = 0; i < nb; i++) { const d = data.slice(k, k + sl - el + (i < ns ? 0 : 1)); k += d.length; const e = rem(d, dv); if (i < ns) d.push(0); blocks.push(d.concat(e)); }
+    const cw = []; for (let i = 0; i < blocks[0].length; i++) blocks.forEach((b, j) => { if (i !== sl - el || j >= ns) cw.push(b[i]); });
+    const size = v*4+17, M = [...Array(size)].map(() => new Array(size).fill(false)), F = [...Array(size)].map(() => new Array(size).fill(false));
+    const set = (x, y, d) => { M[y][x] = d; F[y][x] = true; };
+    for (let i = 0; i < size; i++) { set(6, i, i%2 === 0); set(i, 6, i%2 === 0); }
+    const finder = (x, y) => { for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) { const d = Math.max(Math.abs(dx), Math.abs(dy)), xx = x+dx, yy = y+dy; if (xx >= 0 && xx < size && yy >= 0 && yy < size) set(xx, yy, d !== 2 && d !== 4); } };
+    finder(3, 3); finder(size-4, 3); finder(3, size-4);
+    let al = []; if (v > 1) { const n = Math.floor(v/7)+2, step = Math.ceil((v*4+4)/(n*2-2))*2; al = [6]; for (let p = size-7; al.length < n; p -= step) al.splice(1, 0, p); }
+    al.forEach((a, i) => al.forEach((b, j) => { if ((i === 0 && j === 0) || (i === 0 && j === al.length-1) || (i === al.length-1 && j === 0)) return;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(a+dx, b+dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1); }));
+    const format = mask => { const d = (0 << 3) | mask; let r = d; for (let i = 0; i < 10; i++) r = (r<<1) ^ ((r>>>9)*0x537); const b = ((d<<10)|r) ^ 0x5412;
+      for (let i = 0; i <= 5; i++) set(8, i, bit(b, i)); set(8, 7, bit(b, 6)); set(8, 8, bit(b, 7)); set(7, 8, bit(b, 8));
+      for (let i = 9; i < 15; i++) set(14-i, 8, bit(b, i)); for (let i = 0; i < 8; i++) set(size-1-i, 8, bit(b, i));
+      for (let i = 8; i < 15; i++) set(8, size-15+i, bit(b, i)); set(8, size-8, true); };
+    format(0);
+    if (v >= 7) { let r = v; for (let i = 0; i < 12; i++) r = (r<<1) ^ ((r>>>11)*0x1F25); const b = (v<<12)|r;
+      for (let i = 0; i < 18; i++) { const a = size-11+i%3, c = Math.floor(i/3); set(a, c, bit(b, i)); set(c, a, bit(b, i)); } }
+    let i = 0;
+    for (let right = size-1; right >= 1; right -= 2) { if (right === 6) right = 5;
+      for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++) { const x = right-j, up = ((right+1)&2) === 0, y = up ? size-1-vert : vert;
+        if (!F[y][x] && i < cw.length*8) { M[y][x] = bit(cw[i>>>3], 7-(i&7)); i++; } } }
+    const cond = [(x,y)=>(x+y)%2===0,(x,y)=>y%2===0,(x,y)=>x%3===0,(x,y)=>(x+y)%3===0,(x,y)=>(Math.floor(x/3)+Math.floor(y/2))%2===0,(x,y)=>x*y%2+x*y%3===0,(x,y)=>(x*y%2+x*y%3)%2===0,(x,y)=>((x+y)%2+x*y%3)%2===0];
+    const apply = m => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!F[y][x] && cond[m](x, y)) M[y][x] = !M[y][x]; };
+    const penalty = () => { let p = 0, dark = 0;
+      for (let y = 0; y < size; y++) for (const horiz of [true, false]) { let run = 1; for (let k = 1; k <= size; k++) { const same = k < size && (horiz ? M[y][k] === M[y][k-1] : M[k][y] === M[k-1][y]); if (same) run++; else { if (run >= 5) p += run - 2; run = 1; } } }
+      for (let y = 0; y < size-1; y++) for (let x = 0; x < size-1; x++) { const c = M[y][x]; if (c === M[y][x+1] && c === M[y+1][x] && c === M[y+1][x+1]) p += 3; }
+      for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (M[y][x]) dark++;
+      return p + Math.floor(Math.abs(dark*20 - size*size*10) / (size*size)) * 10; };
+    let best = forceMask, bp = Infinity;
+    if (best === undefined) for (let m = 0; m < 8; m++) { apply(m); format(m); const p = penalty(); if (p < bp) { bp = p; best = m; } apply(m); }
+    apply(best); format(best);
+    return {size, M, version: v, mask: best};
+  }
+  function svg(text, dark = "#0a1a3a"){
+    const {size, M} = encode(text), q = 4, n = size + q*2; let d = "";
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (M[y][x]) d += `M${x+q} ${y+q}h1v1h-1z`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges" style="width:100%;height:auto;display:block"><rect width="${n}" height="${n}" fill="#fff"/><path d="${d}" fill="${dark}"/></svg>`;
+  }
+  return {encode, svg};
+})();
+</script>
+<script>
+{
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const COLORS = ["#0a5cff","#e6261f","#00a05a","#7a3cff","#ff7a00","#0099b8","#c2185b","#3d5afe"];
+
+const AREAS = {
+  controles:{n:"Ingeniería de Controles",s:["PLC Siemens (TIA Portal)","PLC Allen-Bradley","HMI / SCADA","Redes industriales","Seguridad de máquinas","Diagramas eléctricos"]},
+  robotica:{n:"Robótica",s:["Robots FANUC","Robots ABB","Robots KUKA","Cobots (UR)","Simulación robótica","Programación de trayectorias"]},
+  vision:{n:"Visión e IoT",s:["Visión Cognex","Visión Keyence","Python","Bases de datos","IoT / MQTT","Tableros de datos"]},
+  mecanico:{n:"Diseño mecánico",s:["SolidWorks","Siemens NX","AutoCAD","Neumática","GD&T","Herramentales"]},
+  servicios:{n:"Servicios y puesta en marcha",s:["Puesta en marcha en planta","Diagnóstico de fallas","Mantenimiento","Documentación técnica","Trato con cliente","Estándares automotrices"]},
+  ventas:{n:"Ventas técnicas",s:["Cotización de proyectos","CRM","Negociación","Presentaciones técnicas","Conocimiento de automatización","Prospección"]}
+};
+const TIPOS = ["Practicante (Future Minds)","Empleado","Temporal"];
+const STATIONS = ["Postulación","Análisis","Jefe de área","Contratación","Oferta"];
+
+/* ---------- datos de ejemplo ---------- */
+let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const NAMES = ["Andrea Salinas","Luis Treviño","Mariana Cantú","Jorge Ramos","Daniela Garza","Ricardo Villarreal","Sofía Herrera","Emilio Castillo","Valeria Ríos","Diego Montemayor","Fernanda Ortiz","Iván Zapata","Paola Medina","Héctor Galindo","Ximena Leal","Raúl Escobedo","Camila Flores","Óscar Elizondo"];
+const CITIES = ["Saltillo","Ramos Arizpe","Monterrey","Querétaro","Celaya","Apodaca"];
+const CARTAS = [
+ "Hice mis prácticas en una línea de ensamble automotriz y me tocó resolver paros de PLC en turno nocturno. Me gusta entender la causa raíz, no solo reiniciar la máquina.",
+ "Quiero crecer en robótica. Llevo dos años programando celdas de soldadura y me interesa aprender integración completa con visión.",
+ "Soy egresado de mecatrónica. Lo que más disfruto es documentar bien para que el siguiente técnico no batalle a las 3 de la mañana.",
+ "Necesito un lugar donde aprender rápido. Estudio y trabajo, y en mi último proyecto escolar armamos un brazo con un cobot prestado.",
+ "Llevo cinco años en puesta en marcha en México y Estados Unidos. Tengo pasaporte y visa, y me adapto bien a viajar.",
+ "Me considero tranquilo y ordenado. He liderado equipos pequeños de técnicos y me gusta enseñar."
+];
+function makeCand(i){
+  const areaKeys = Object.keys(AREAS), area = areaKeys[i % areaKeys.length];
+  const skills = {}; AREAS[area].s.forEach(s => skills[s] = Math.max(0, Math.min(5, Math.round(rnd()*5 + (i%3===0?1:0)))));
+  const tipo = TIPOS[i % 3 === 0 ? 0 : (i % 3 === 1 ? 1 : 2)];
+  return {id:"c"+i,name:NAMES[i],city:CITIES[i%CITIES.length],area,tipo,skills,
+    ingles:1+Math.floor(rnd()*5),pasaporte:rnd()>.45,viajar:rnd()>.35,
+    sueldo:tipo.startsWith("Pract")?8000+Math.round(rnd()*4)*1000:18000+Math.round(rnd()*22)*1000,
+    exp:tipo.startsWith("Pract")?0:1+Math.floor(rnd()*8),carta:CARTAS[i%CARTAS.length],
+    rasgos:{"Trabajo en equipo":50+Math.round(rnd()*50),"Iniciativa":40+Math.round(rnd()*60),"Estabilidad":45+Math.round(rnd()*55),"Ideas nuevas":35+Math.round(rnd()*65)},
+    color:COLORS[i%COLORS.length],photo:null,mine:false,stage:1};
+}
+function freshState(){
+  seed = 7;
+  const cands = NAMES.map((_, i) => makeCand(i));
+  const vacs = [
+    {id:"v1",title:"Ingeniero de Controles Jr",area:"controles",tipo:"Empleado",jefe:"Ing. Sergio P.",min:22000,max:30000,visible:false,status:"abierta",pick:[],
+     reqs:[{s:"PLC Siemens (TIA Portal)",l:3,m:true},{s:"HMI / SCADA",l:2,m:true},{s:"Redes industriales",l:2,m:false},{s:"Inglés",l:3,m:false}]},
+    {id:"v2",title:"Becario Future Minds · Robótica",area:"robotica",tipo:"Practicante (Future Minds)",jefe:"Ing. José Luis G.",min:8000,max:11000,visible:true,status:"abierta",pick:[],
+     reqs:[{s:"Robots FANUC",l:1,m:false},{s:"Simulación robótica",l:1,m:false},{s:"Programación de trayectorias",l:2,m:true},{s:"Inglés",l:2,m:false}]},
+    {id:"v3",title:"Técnico de puesta en marcha (EE. UU.)",area:"servicios",tipo:"Temporal",jefe:"Ing. Fernando L.",min:28000,max:38000,visible:false,status:"abierta",pick:[],
+     reqs:[{s:"Puesta en marcha en planta",l:3,m:true},{s:"Pasaporte vigente",l:5,m:true},{s:"Diagnóstico de fallas",l:3,m:false},{s:"Inglés",l:4,m:true}]}
+  ];
+  return {cands,vacs,notifs:[
+    {who:"Jefe",msg:"Hay 5 candidatos listos para «Ingeniero de Controles Jr».",t:"hace 2 h",read:false},
+    {who:"RH",msg:"Ing. Fernando L. pidió que Contratación decida entre 2 finalistas.",t:"ayer",read:false}],
+    mine:null,vid:"v1",cid:null,cmp:[],draft:null};
+}
+const rid = (n = 8) => { const c = "abcdefghijkmnpqrstuvwxyz23456789"; let r = ""; for (const x of crypto.getRandomValues(new Uint8Array(n))) r += c[x % c.length]; return r; };
+let S; try { S = JSON.parse(localStorage.getItem("selekta")) } catch(e) {}
+if (!S || !S.cands) S = freshState();
+const save = () => { try { localStorage.setItem("selekta", JSON.stringify(S)) } catch(e) {} };
+const QS = new URLSearchParams(location.search);
+{ const qv = QS.get("v"), qs = QS.get("sala");
+  if (qs && qs !== S.sala) { const keep = {pubUrl:S.pubUrl}; S = Object.assign(freshState(), keep); S.sala = qs; }
+  if (!S.sala) S.sala = rid();
+  if (qv && ["solicitante","ingeniero","empresa","presentador"].includes(qv)) S.role = qv;
+  else if (!qv && !["solicitante","ingeniero","empresa"].includes(location.hash.slice(1))) S.role = "presentador";
+  save(); }
+let DEV; try { DEV = sessionStorage.getItem("selekta_dev") || rid(6); sessionStorage.setItem("selekta_dev", DEV); } catch(e) { DEV = rid(6); }
+const LOADED = Date.now();
+
+/* ---------- canal entre celulares (igual que el programa de turnos):
+   internet = ntfy.sh, mismo celular = BroadcastChannel ---------- */
+const NTFY = "https://ntfy.sh", TOPIC = "selekta-" + S.sala;
+function makeBus(topic, onMsg, onStatus){
+  const seen = new Set(); let es = null, online = null, lastEvt = 0, freno = 0, ultima = 0;
+  const LK = "selekta_last_" + topic; let lastId = null; try { lastId = localStorage.getItem(LK); } catch(e) {}
+  const setOn = v => { if (v !== online) { online = v; onStatus(v); } };
+  let bc = null; try { bc = new BroadcastChannel(topic); bc.onmessage = e => onMsg(e.data, Date.now()); } catch(e) {}
+  function handle(j){ if (!j) return; lastEvt = Date.now(); if (j.event !== "message" || seen.has(j.id)) return;
+    seen.add(j.id); lastId = j.id; try { localStorage.setItem(LK, lastId); } catch(e) {}
+    let d; try { d = JSON.parse(j.message); } catch(e) { return; } onMsg(d, j.time ? j.time * 1000 : Date.now()); }
+  function connect(){ if (Date.now() < freno) return; try { es && es.close(); } catch(e) {}
+    try { es = new EventSource(`${NTFY}/${topic}/sse?since=${encodeURIComponent(lastId || "12h")}`); lastEvt = Date.now();
+      es.onopen = () => { lastEvt = Date.now(); setOn(true); }; es.onmessage = e => { try { handle(JSON.parse(e.data)); } catch(_) {} };
+      es.addEventListener("keepalive", () => { lastEvt = Date.now(); setOn(true); }); es.onerror = () => setOn(false);
+    } catch(e) { setOn(false); } }
+  async function poll(force){ if (Date.now() < freno || (!force && Date.now() - ultima < 25000)) return; ultima = Date.now();
+    try { const r = await fetch(`${NTFY}/${topic}/json?poll=1&since=${encodeURIComponent(lastId || "12h")}`);
+      if (r.status === 429) { freno = Date.now() + 30000; setOn(false); return; } if (!r.ok) throw 0;
+      (await r.text()).split("\n").forEach(l => { if (l.trim()) { try { handle(JSON.parse(l)); } catch(_) {} } }); setOn(true);
+    } catch(e) { setOn(false); } }
+  async function send(d){ if (bc) { try { bc.postMessage(d); } catch(e) {} }
+    for (let i = 0; i < 3; i++) { try { const r = await fetch(`${NTFY}/${topic}`, {method:"POST", body:JSON.stringify(d)}); if (r.ok) return true; if (r.status === 429) freno = Date.now() + 15000; } catch(e) { setOn(false); }
+      await new Promise(ok => setTimeout(ok, 2500 * (i + 1))); } return false; }
+  const dead = () => !es || es.readyState === 2 || Date.now() - lastEvt > 100000;
+  connect(); poll(true);
+  setInterval(() => { if (document.hidden) return; if (dead()) { connect(); poll(true); } else if (es.readyState !== 1) poll(false); }, 10000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) { if (dead()) connect(); poll(true); } });
+  window.addEventListener("online", () => { connect(); poll(true); });
+  return {send};
+}
+const slimCand = c => { const {photo, mine, ...rest} = c; return {...rest, carta:String(c.carta || "").slice(0, 500)}; };
+let bus = null;
+const share = ev => { if (bus) bus.send({...ev, from:DEV}); };
+function onEvt(d, t){
+  if (!d || !d.type || d.from === DEV) return;
+  const fresh = t > LOADED - 15000;
+  if (d.type === "cand" && d.c) { const i = S.cands.findIndex(x => x.id === d.c.id); const c = {...d.c, mine:false, photo:null}; if (i >= 0) S.cands[i] = {...S.cands[i], ...c, mine:S.cands[i].mine, photo:S.cands[i].photo}; else S.cands.unshift(c); }
+  else if (d.type === "vac" && d.v) { const i = S.vacs.findIndex(x => x.id === d.v.id); if (i >= 0) S.vacs[i] = d.v; else S.vacs.unshift(d.v); }
+  else if (d.type === "stage") { const c = S.cands.find(x => x.id === d.cid); if (c) { c.stage = Math.max(c.stage || 1, d.stage); if (d.oferta) c.oferta = d.oferta; } }
+  else if (d.type === "notif") { if (!S.notifs.some(n => n.k === d.k)) { S.notifs.unshift({who:d.who, msg:d.msg, t:fresh?"ahora":"antes", read:!fresh, k:d.k}); if (fresh && (!WHO[S.role] || WHO[S.role] === d.who)) toast(d.msg, d.who === "Jefe" ? "Ingeniero" : d.who === "RH" ? "Empresa" : "Solicitante"); } }
+  else return;
+  save(); badge(); live();
+}
+let liveT; function live(){ clearTimeout(liveT); liveT = setTimeout(() => { const r = location.hash.slice(1); if (!/^(registro|nueva|compartir|analizando)/.test(r)) render(true); }, 250); }
+function setConn(v){ const d = $("#dot"); if (!d) return; d.style.background = v ? "var(--green)" : "var(--red)"; d.title = v ? "En línea" : "Sin conexión"; }
+
+/* ---------- lógica de selección ---------- */
+const lvlOf = (c, s) => s === "Inglés" ? c.ingles : s === "Pasaporte vigente" ? (c.pasaporte?5:0) : s === "Disponibilidad para viajar" ? (c.viajar?5:0) : (c.skills[s] ?? 0);
+function match(c, v){
+  let tot = 0, got = 0, missMust = 0;
+  const rows = v.reqs.map(r => { const l = lvlOf(c, r.s), w = r.m ? 3 : 1, ok = l >= r.l; tot += w; got += w * Math.min(1, r.l ? l / r.l : 1); if (r.m && !ok) missMust++; return {...r, have:l, ok}; });
+  let pct = Math.round(got / tot * 100); if (c.tipo === v.tipo) pct = Math.min(100, pct + 3);
+  return {pct, rows, missMust};
+}
+function ranking(v){
+  return S.cands.filter(c => c.area === v.area).map(c => ({c, ...match(c, v)}))
+    .sort((a, b) => (a.missMust - b.missMust) || (b.pct - a.pct));
+}
+const top5 = v => ranking(v).filter(x => x.pct >= 55).slice(0, 5);
+
+/* ---------- utilidades de interfaz ---------- */
+const money = n => "$" + Number(n).toLocaleString("es-MX");
+const ini = n => n.split(" ").map(w => w[0]).slice(0, 2).join("");
+const av = (c, big, blind) => `<div class="av${big?" big":""}${blind?" blind":""}" style="background-color:${c.color};${c.photo?`background-image:url(${c.photo})`:""}">${c.photo?"":ini(c.name)}</div>`;
+const pctColor = p => p >= 85 ? "var(--green)" : p >= 70 ? "var(--blue)" : "var(--amber)";
+let toastT;
+function toast(msg, who){
+  $("#tm").textContent = msg; $("#tt").textContent = "Selekta · " + (who || "ahora");
+  const t = $("#toast"); t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 3800);
+}
+const WHO = {solicitante:"Candidato", ingeniero:"Jefe", empresa:"RH"};
+const mineN = () => S.notifs.filter(n => !WHO[S.role] || n.who === WHO[S.role]);
+function notify(who, msg, show = true){ const k = rid(10); S.notifs.unshift({who, msg, t:"ahora", read:false, k}); save(); badge(); share({type:"notif", who, msg, k}); if (show && (!WHO[S.role] || WHO[S.role] === who)) toast(msg, who === "Jefe" ? "Ingeniero" : who === "RH" ? "Empresa" : "Solicitante"); }
+function badge(){ const n = mineN().filter(x => !x.read).length; const b = $("#nb"); b.style.display = n ? "grid" : "none"; b.textContent = n; }
+
+function metro(stage, light){
+  const W = 520, y = 46, x0 = 56, gap = (W - 2 * x0) / 4, ink = light ? "#fff" : "currentColor";
+  let dots = STATIONS.map((s, i) => { const x = x0 + i * gap, done = i < stage, cur = i === stage - 1;
+    return `<circle cx="${x}" cy="${y}" r="${cur?15:11}" fill="${done?(light?"#fff":"var(--blue)"):(light?"rgba(255,255,255,.25)":"var(--bg)")}" stroke="${light?"#fff":(done?"var(--blue)":"var(--line)")}" stroke-width="4"/>
+    ${cur?`<circle cx="${x}" cy="${y}" r="5" fill="${light?"var(--blue)":"#fff"}"/>`:""}
+    <text x="${x}" y="${y+40}" text-anchor="middle" font-size="15" font-weight="${cur?800:600}" fill="${ink}" opacity="${done?1:.6}">${s}</text>`; }).join("");
+  const xEnd = x0 + Math.max(0, stage - 1) * gap;
+  return `<svg class="metro" viewBox="0 0 ${W} 100" role="img" aria-label="Avance: ${STATIONS[stage-1]}">
+  <line x1="${x0}" y1="${y}" x2="${W-x0}" y2="${y}" stroke="${light?"rgba(255,255,255,.3)":"var(--line)"}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="${x0}" y1="${y}" x2="${xEnd}" y2="${y}" stroke="${light?"#fff":"var(--blue)"}" stroke-width="8" stroke-linecap="round"/>${dots}</svg>`;
+}
+
+/* ---------- navegación (el botón Atrás del celular regresa dentro de la app) ---------- */
+const go = name => { if (location.hash.slice(1) === name) render(); else location.hash = name; };
+const IC = {
+  inicio:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  persona:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  maleta:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  escudo:'<path d="M9 12l2 2 4-4"/><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/>',
+  barras:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  mas:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  ruta:'<circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 6h6a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h6"/>',
+  grupo:'<circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M16 14.5c3 0 5.5 1.6 5.5 5"/>',
+  campana:'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21a2 2 0 0 0 4 0"/>',
+  qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>'
+};
+const ROLES = {
+  presentador:{n:"Presentación",home:"inicio",tabs:[["inicio","Inicio","inicio"],["registro-1","Solicitante","persona"],["jefe","Ingeniero","maleta"],["rh","Empresa","escudo"],["compartir","Accesos","qr"]]},
+  solicitante:{n:"Solicitante",home:"bienvenida",tabs:[["bienvenida","Inicio","inicio"],["registro-1","Solicitud","persona"],["mi-postulacion","Mi proceso","ruta"],["notificaciones","Avisos","campana"]],
+    allow:["bienvenida","registro","analizando","mi","notificaciones"]},
+  ingeniero:{n:"Ingeniero",home:"jefe",tabs:[["jefe","Vacantes","maleta"],["nueva","Nueva","mas"],["banco","Talento","grupo"],["notificaciones","Avisos","campana"]],
+    allow:["jefe","nueva","vacante","perfil","comparar","banco","analizando","notificaciones"]},
+  empresa:{n:"Empresa / RH",home:"rh",tabs:[["rh","Decisiones","escudo"],["jefe","Vacantes","maleta"],["metricas","Métricas","barras"],["banco","Talento","grupo"],["notificaciones","Avisos","campana"]],
+    allow:["rh","jefe","vacante","perfil","metricas","banco","notificaciones"]}
+};
+const role = () => ROLES[S.role] || ROLES.presentador;
+function tabs(cur){
+  const base = cur.split("-")[0], R = role();
+  const map = {perfil:"jefe",vacante:"jefe",comparar:"jefe",analizando:S.role==="ingeniero"?"nueva":"registro",mi:S.role==="solicitante"?"mi":"registro"};
+  if (!S.role || S.role === "presentador") Object.assign(map, {nueva:"jefe",banco:"jefe",metricas:"rh",notificaciones:"inicio"});
+  const act = map[base] || base;
+  const t = R.tabs; $("#tabs").style.gridTemplateColumns = `repeat(${t.length},1fr)`;
+  $("#tabs").innerHTML = t.map(([h, l, ic]) => `<button data-go="${h}" class="${h.split("-")[0]===act?"on":""}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[ic]}</svg>${l}</button>`).join("");
+}
+
+/* ---------- pantallas ---------- */
+const V = {};
+V.inicio = () => `
+<div class="hero fade">
+  <h1>Las vacantes llegan solas a la persona correcta</h1>
+  <p>El jefe dice qué necesita, los candidatos dicen qué saben y Selekta los une. Cada quien recibe aviso en su celular.</p>
+  ${metro(3, true)}
+</div>
+<button class="btn" data-go="compartir" style="margin-bottom:12px">Accesos con QR: solicitante, ingeniero y empresa</button>
+<div class="row" style="margin-bottom:6px">
+  <button class="btn alt" data-go="registro-1">Ver como solicitante</button>
+  <button class="btn alt" data-go="jefe">Ver como ingeniero</button>
+  <button class="btn alt" data-go="rh">Ver como empresa</button>
+</div>
+<h2>Cómo funciona</h2>
+<div class="card"><span class="pill b">1 · Candidato</span><p style="margin:8px 0 0">Llena su solicitud, elige área y marca qué tan bien domina cada habilidad. No ve los requisitos ocultos del jefe.</p></div>
+<div class="card"><span class="pill a">2 · Análisis automático</span><p style="margin:8px 0 0">Selekta compara cada perfil con lo que pidió cada jefe y le manda los 5 mejores, con ✓ y ✗ por requisito.</p></div>
+<div class="card"><span class="pill g">3 · Decisión</span><p style="margin:8px 0 0">El jefe elige, compara o deja que Contratación decida por sueldo y perfil. Todos reciben aviso.</p></div>
+<div class="kpi" style="margin-top:14px">
+  <div class="card"><b>${S.cands.length}</b><span class="sm mut">candidatos en el banco</span></div>
+  <div class="card"><b>${S.vacs.filter(v=>v.status!=="cerrada").length}</b><span class="sm mut">vacantes activas</span></div>
+</div>
+<p class="note">Prototipo con datos de ejemplo. <a href="#" data-act="reset" style="color:var(--blue)">Reiniciar demo</a></p>`;
+
+/* registro del candidato */
+const D = () => S.draft || (S.draft = {name:"",city:"",email:"",area:"",tipo:"",skills:{},ingles:0,pasaporte:false,viajar:false,sueldo:"",carta:"",photo:null,ok:false});
+const stepsBar = n => `<div class="steps">${[1,2,3,4,5].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div>`;
+V["registro-1"] = () => { const d = D(); return `${stepsBar(1)}<h1>Tu solicitud</h1><p class="mut">Paso 1 de 5 · Datos básicos</p>
+<label class="f" for="fn">Nombre completo</label><input id="fn" data-bind="name" value="${esc(d.name)}" autocomplete="name" placeholder="Como aparece en tu identificación">
+<label class="f" for="fe">Correo o WhatsApp</label><input id="fe" data-bind="email" value="${esc(d.email)}" placeholder="Para avisarte de tu proceso">
+<label class="f" for="fc">Ciudad</label><input id="fc" data-bind="city" value="${esc(d.city)}" placeholder="Saltillo, Monterrey, Querétaro…">
+<label class="f" for="fp">Foto (opcional)</label>
+<div class="row" style="align-items:center"><div style="flex:0 0 auto">${d.photo?`<div class="av big" style="background-image:url(${d.photo})"></div>`:`<div class="av big" style="background:var(--line);color:var(--mut)">+</div>`}</div>
+<div><input id="fp" type="file" accept="image/*" style="padding:10px"><p class="sm mut" style="margin:6px 0 0">Solo se muestra cuando el jefe ya eligió finalistas.</p></div></div>
+<div style="height:18px"></div><button class="btn" data-next="registro-2" data-need="name">Siguiente</button>`; };
+V["registro-2"] = () => { const d = D(); return `${stepsBar(2)}<h1>¿Dónde te gustaría trabajar?</h1><p class="mut">Paso 2 de 5 · Área y tipo de puesto</p>
+<label class="f">Área</label><div class="chips">${Object.entries(AREAS).map(([k,a])=>`<button class="chip ${d.area===k?"on":""}" data-area="${k}">${a.n}</button>`).join("")}</div>
+<label class="f">Busco entrar como</label><div class="chips">${TIPOS.map(t=>`<button class="chip ${d.tipo===t?"on":""}" data-tipo="${esc(t)}">${t}</button>`).join("")}</div>
+<div style="height:22px"></div><button class="btn" data-next="registro-3" data-need="area,tipo">Siguiente</button>`; };
+const lvButtons = (key, val) => `<div class="lv">${[0,1,2,3,4,5].map(n=>`<button class="${val===n?"on":""}" data-lv="${esc(key)}" data-n="${n}" aria-label="${key} nivel ${n}">${n}</button>`).join("")}</div>`;
+V["registro-3"] = () => { const d = D(); const a = AREAS[d.area] || AREAS.controles; return `${stepsBar(3)}<h1>¿Qué sabes hacer?</h1><p class="mut">Paso 3 de 5 · 0 = no lo conozco, 5 = lo domino. Si eres estudiante, marca también lo que quieres aprender.</p>
+<div class="card" style="padding:4px 14px">${a.s.map(s=>`<div class="sk"><span>${esc(s)}</span>${lvButtons(s, d.skills[s] ?? -1)}</div>`).join("")}
+<div class="sk" style="border:0"><span>Inglés</span>${lvButtons("Inglés", d.ingles)}</div></div>
+<label class="switch"><input type="checkbox" data-chk="pasaporte" ${d.pasaporte?"checked":""}> Tengo pasaporte vigente</label>
+<label class="switch"><input type="checkbox" data-chk="viajar" ${d.viajar?"checked":""}> Puedo viajar (México y EE. UU.)</label>
+<div style="height:10px"></div><button class="btn" data-next="registro-4">Siguiente</button>`; };
+V["registro-4"] = () => { const d = D(); return `${stepsBar(4)}<h1>Cuéntanos de ti</h1><p class="mut">Paso 4 de 5 · Esto lo lee el jefe cuando dos perfiles quedan empatados.</p>
+<label class="f" for="fk">¿Por qué tú? ¿Cómo ha sido tu camino?</label><textarea id="fk" data-bind="carta" placeholder="Unas líneas: qué te mueve, qué has hecho, qué quieres aprender.">${esc(d.carta)}</textarea>
+<label class="f" for="fs">Sueldo mensual que buscas (MXN)</label><input id="fs" data-bind="sueldo" inputmode="numeric" value="${esc(d.sueldo)}" placeholder="Ej. 18000">
+<div style="height:22px"></div><button class="btn" data-next="registro-5">Siguiente</button>`; };
+V["registro-5"] = () => { const d = D(); const a = AREAS[d.area]; return `${stepsBar(5)}<h1>Revisa y envía</h1><p class="mut">Paso 5 de 5</p>
+<div class="card"><div class="cand">${av({name:d.name||"Tú",color:"#0a5cff",photo:d.photo})}<div><b>${esc(d.name||"Sin nombre")}</b><div class="sm mut">${esc(d.city||"—")} · ${esc(a?a.n:"—")}</div></div></div>
+<div class="row" style="margin-top:12px"><span class="pill b">${esc(d.tipo)}</span><span class="pill">${d.sueldo?money(d.sueldo):"Sueldo a convenir"}</span></div></div>
+<label class="switch"><input type="checkbox" data-chk="ok" ${d.ok?"checked":""}> Leí el aviso de privacidad y acepto que mis datos se usen para procesos de selección.</label>
+<p class="sm mut">Tus datos sensibles (como la evaluación psicológica) solo los ve el área de Contratación.</p>
+<div style="height:8px"></div><button class="btn" data-act="enviar">Enviar solicitud</button>`; };
+V.analizando = () => S.anal === "jefe" ? `<div class="spin"></div><h1 style="text-align:center">Buscando candidatos</h1><p class="mut" style="text-align:center">Revisando ${S.cands.length} perfiles contra tus requisitos…</p>` : `<div class="spin"></div><h1 style="text-align:center">Analizando tu perfil</h1><p class="mut" style="text-align:center" id="anl">Comparando con las vacantes abiertas…</p>`;
+V["mi-postulacion"] = () => {
+  const c = S.cands.find(x => x.id === S.mine);
+  if (!c) return `<div class="empty"><h2>Aún no te postulas</h2><p>Llena tu solicitud en 2 minutos.</p><button class="btn" data-go="registro-1">Postularme</button></div>`;
+  const hits = S.vacs.filter(v => v.area === c.area && v.status !== "cerrada").map(v => { const r = ranking(v), pos = r.findIndex(x => x.c.id === c.id) + 1, m = r[pos-1]; return {v, pos, pct:m.pct, top:pos <= 5 && m.pct >= 55}; });
+  return `<div class="fade"><p class="mut" style="margin:0">Hola, ${esc(c.name.split(" ")[0])}</p><h1>Tu proceso</h1>
+<div class="card">${metro(c.stage)}</div>
+${c.stage>=5?`<div class="card" style="background:var(--green);color:#fff"><b style="font-size:20px">¡Tienes una oferta!</b><p style="margin:6px 0 0">${esc(c.oferta||"")}</p></div>`:""}
+<h2>Vacantes que coinciden contigo</h2>
+${hits.length?hits.map(h=>`<div class="card"><div class="cand"><div><b>${esc(h.v.title)}</b><div class="sm mut">${esc(h.v.tipo)}</div></div><div class="score"><b style="color:${pctColor(h.pct)}">${h.pct}%</b><span class="sm mut">afinidad</span></div></div>
+<p class="sm" style="margin:10px 0 0">${h.top?`<span class="pill g">✓ Estás entre los 5 mejores · lugar ${h.pos}</span>`:`<span class="pill a">Estás en el banco de talento</span>`}</p>
+${h.v.visible?`<p class="sm mut" style="margin:10px 0 0">El jefe busca: ${h.v.reqs.map(r=>esc(r.s)).join(", ")}</p>`:`<p class="sm mut" style="margin:10px 0 0">Requisitos privados del jefe de área.</p>`}</div>`).join(""):`<div class="card">No hay vacantes abiertas en tu área ahora mismo. Te avisaremos en cuanto se abra una.</div>`}
+${S.role==="solicitante"?"":`<button class="btn alt" data-act="verjefe">Ver cómo te ve el ingeniero →</button>`}</div>`;
+};
+
+/* jefe de área */
+V.jefe = () => `<h1>${S.role==="empresa"?"Vacantes de la empresa":"Mis vacantes"}</h1><p class="mut">${S.role==="empresa"?"Lo que han pedido los ingenieros de cada área":"Panel del ingeniero que solicita"}</p>
+${S.role==="empresa"?"":`<button class="btn" data-go="nueva" style="margin-bottom:16px">+ Nueva vacante</button>`}
+${S.vacs.map(v=>{const t=top5(v);const st={abierta:["b","Abierta"],"rh":["a","En Contratación"],"oferta":["g","Oferta enviada"],cerrada:["","Cerrada"]}[v.status];
+return `<div class="card tap" data-vac="${v.id}"><div class="cand"><div><b>${esc(v.title)}</b><div class="sm mut">${esc(AREAS[v.area].n)} · ${esc(v.tipo)}</div></div><span class="pill ${st[0]}" style="margin-left:auto">${st[1]}</span></div>
+<div class="row" style="margin-top:12px;align-items:center"><div style="flex:0 0 auto;display:flex">${t.slice(0,4).map((x,i)=>`<div style="margin-left:${i?-10:0}px;border:2px solid var(--card);border-radius:50%">${av(x.c,false,true)}</div>`).join("")}</div>
+<div class="sm" style="flex:1 1 auto">${t.length?`<b>${t.length} candidatos</b> listos`:`Sin candidatos aún`}</div></div></div>`}).join("")}
+<button class="btn alt" data-go="banco">Ver banco de talento</button>`;
+
+V.nueva = () => { const a = Object.keys(AREAS)[0]; return `<h1>Nueva vacante</h1><p class="mut">Di qué necesitas. Los candidatos no ven estos requisitos, a menos que tú lo permitas.</p>
+<label class="f" for="nt">Puesto</label><input id="nt" placeholder="Ej. Ingeniero de Robótica Sr">
+<label class="f" for="na">Área</label><select id="na">${Object.entries(AREAS).map(([k,x])=>`<option value="${k}">${x.n}</option>`).join("")}</select>
+<label class="f" for="np">Tipo</label><select id="np">${TIPOS.map(t=>`<option>${t}</option>`).join("")}</select>
+<label class="f">Requisitos · nivel mínimo y si es indispensable</label><div class="card" id="reqs" style="padding:4px 14px"></div>
+<div class="row"><div><label class="f" for="nmin">Sueldo desde</label><input id="nmin" inputmode="numeric" value="18000"></div><div><label class="f" for="nmax">hasta</label><input id="nmax" inputmode="numeric" value="28000"></div></div>
+<label class="switch"><input type="checkbox" id="nvis"> Mostrar a los candidatos qué estoy buscando</label>
+<button class="btn" data-act="publicar">Publicar y buscar candidatos</button>`; };
+function drawReqs(){
+  const box = $("#reqs"); if (!box) return; const a = $("#na").value; const list = [...AREAS[a].s, "Inglés", "Pasaporte vigente"];
+  box.innerHTML = list.map((s,i)=>`<div class="sk"><label style="display:flex;gap:10px;align-items:center"><input type="checkbox" data-rq="${i}" style="width:20px;height:20px;min-height:0;accent-color:var(--blue)" ${i<2?"checked":""}> ${esc(s)}</label>
+  <div style="display:flex;gap:6px"><select data-rl="${i}" style="width:auto;min-height:40px;padding:6px 8px">${[1,2,3,4,5].map(n=>`<option ${n===3?"selected":""}>${n}</option>`).join("")}</select>
+  <select data-rm="${i}" style="width:auto;min-height:40px;padding:6px 8px"><option value="1" ${i<1?"selected":""}>Indispensable</option><option value="0" ${i>=1?"selected":""}>Deseable</option></select></div></div>`).join("");
+  box.dataset.list = JSON.stringify(list);
+}
+
+V.vacante = () => {
+  const v = S.vacs.find(x => x.id === S.vid) || S.vacs[0]; S.vid = v.id; const t = top5(v), all = ranking(v);
+  const near = all.filter(x => x.pct < 55).length;
+  let empty = "";
+  if (!t.length) { const miss = {}; all.forEach(x => x.rows.filter(r => !r.ok).forEach(r => miss[r.s] = (miss[r.s]||0) + 1)); const worst = Object.entries(miss).sort((a,b)=>b[1]-a[1])[0];
+    empty = `<div class="card"><b>No hay candidatos disponibles con las características que buscas.</b><p class="sm mut" style="margin:6px 0 0">${worst?`El requisito que más filtra es «${esc(worst[0])}». Si lo bajas un nivel, aparecerían más personas.`:""}</p></div>`; }
+  return `<div class="fade"><span class="pill b">${esc(v.tipo)}</span><h1 style="margin-top:10px">${esc(v.title)}</h1>
+<p class="mut">${esc(AREAS[v.area].n)} · ${money(v.min)}–${money(v.max)} · ${v.visible?"Requisitos visibles":"Requisitos privados"}</p>
+<div class="card"><b>Lo que pediste</b>${v.reqs.map(r=>`<div class="req" style="border-color:var(--line)"><span style="flex:1">${esc(r.s)}</span><span class="pill">nivel ${r.l}+</span>${r.m?`<span class="pill r">Indispensable</span>`:`<span class="pill">Deseable</span>`}</div>`).join("")}</div>
+<h2>Los ${t.length || ""} mejores para ti</h2><p class="sm mut">Selección ciega: nombre y foto se revelan cuando abres el perfil. ${near?`${near} personas más quedaron en el banco.`:""}</p>
+${empty}${t.map((x,i)=>`<div class="card tap" data-cand="${x.c.id}"><div class="cand"><b style="font-size:20px;width:22px;color:var(--mut)">${i+1}</b>${av(x.c,false,true)}
+<div><b>Candidato ${String.fromCharCode(65+i)}</b>${x.c.mine?` <span class="pill g">Nuevo</span>`:""}${x.missMust?` <span class="pill r">Le falta ${x.missMust} indispensable</span>`:""}<div class="sm mut">${x.rows.filter(r=>r.ok).length} de ${x.rows.length} requisitos · ${esc(x.c.tipo.split(" ")[0])}</div></div>
+<div class="score"><b style="color:${pctColor(x.pct)}">${x.pct}%</b></div></div><div class="bar" style="margin-top:10px"><i style="width:${x.pct}%;background:${pctColor(x.pct)}"></i></div></div>`).join("")}
+${t.length>=2?`<button class="btn alt" data-act="comparar2" style="margin-bottom:10px">Comparar los 2 primeros</button>`:""}
+${v.status!=="cerrada"?`<button class="btn alt" data-act="cerrar" style="color:var(--red)">Cerrar vacante</button>`:`<p class="mut" style="text-align:center">Vacante cerrada</p>`}</div>`;
+};
+
+V.perfil = () => {
+  const v = S.vacs.find(x => x.id === S.vid) || S.vacs[0], c = S.cands.find(x => x.id === S.cid); if (!c) return V.vacante();
+  const m = match(c, v), show = S.reveal === c.id;
+  return `<div class="fade"><div class="cand" style="margin:4px 0 14px">${av(c,true,!show)}<div><h1 style="font-size:26px;margin:0">${esc(c.name)}</h1><div class="mut sm">${esc(c.city)} · ${c.exp?c.exp+" años de experiencia":"Estudiante"}</div>
+${show?"":`<button class="pill b" data-act="reveal" style="border:0;margin-top:6px;cursor:pointer;font:600 13px Figtree,system-ui,sans-serif">Mostrar foto</button>`}</div></div>
+<div class="card"><div class="cand"><b>Lo que pediste</b><div class="score"><b style="color:${pctColor(m.pct)}">${m.pct}%</b></div></div>
+${m.rows.map(r=>`<div class="req"><span class="ok" style="background:${r.ok?"var(--green)":"var(--red)"}">${r.ok?"✓":"✗"}</span><span style="flex:1">${esc(r.s)}</span><span class="sm mut">tiene ${r.have} · pides ${r.l}</span></div>`).join("")}</div>
+<div class="card"><b>En sus palabras</b><p style="margin:8px 0 0">“${esc(c.carta||"Sin texto")}”</p></div>
+<div class="row" style="margin-bottom:12px"><div class="card" style="margin:0"><span class="sm mut">Busca ganar</span><b style="display:block;font-size:20px">${c.sueldo?money(c.sueldo):"A convenir"}</b><span class="sm ${c.sueldo>v.max?"":"mut"}" style="${c.sueldo>v.max?"color:var(--red)":""}">${c.sueldo>v.max?"Arriba de tu rango":"Dentro de tu rango"}</span></div>
+<div class="card" style="margin:0"><span class="sm mut">Tipo</span><b style="display:block;font-size:17px">${esc(c.tipo)}</b><span class="sm mut">${c.pasaporte?"Con pasaporte":"Sin pasaporte"}</span></div></div>
+<button class="btn green" data-act="elegir" style="margin-bottom:10px">Elegir a esta persona</button>
+<div class="row"><button class="btn alt" data-act="addcmp">Comparar</button><button class="btn alt" data-act="contra">Contraoferta</button></div>
+<div id="contra" style="display:none" class="card fade"><label class="f" for="cv" style="margin-top:0">Tu contraoferta mensual</label><input id="cv" inputmode="numeric" value="${Math.min(c.sueldo||v.max, v.max)}"><div style="height:10px"></div><button class="btn" data-act="sendcontra">Enviar contraoferta</button></div></div>`;
+};
+
+V.comparar = () => {
+  const v = S.vacs.find(x => x.id === S.vid) || S.vacs[0]; const [a, b] = S.cmp.map(id => S.cands.find(c => c.id === id));
+  if (!a || !b) return `<div class="empty"><h2>Elige 2 candidatos para comparar</h2><button class="btn" data-go="vacante">Volver a la vacante</button></div>`;
+  const ma = match(a, v), mb = match(b, v); const ck = ok => `<span style="color:${ok?"var(--green)":"var(--red)"};font-weight:800">${ok?"✓":"✗"}</span>`;
+  return `<h1>Comparar finalistas</h1><p class="mut">${esc(v.title)}</p>
+<div class="card" style="padding:8px 12px"><div class="cmp"><div></div><div class="h">${esc(a.name.split(" ")[0])}</div><div class="h">${esc(b.name.split(" ")[0])}</div>
+<div class="mut">Afinidad</div><div><b>${ma.pct}%</b></div><div><b>${mb.pct}%</b></div>
+${v.reqs.map((r,i)=>`<div>${esc(r.s)}</div><div>${ck(ma.rows[i].ok)} ${ma.rows[i].have}</div><div>${ck(mb.rows[i].ok)} ${mb.rows[i].have}</div>`).join("")}
+<div class="mut">Sueldo</div><div>${money(a.sueldo)}</div><div>${money(b.sueldo)}</div>
+<div class="mut">Experiencia</div><div>${a.exp} años</div><div>${b.exp} años</div></div></div>
+<div class="card"><b>${esc(a.name.split(" ")[0])}:</b> <span class="sm">“${esc(a.carta)}”</span></div>
+<div class="card"><b>${esc(b.name.split(" ")[0])}:</b> <span class="sm">“${esc(b.carta)}”</span></div>
+<div class="row" style="margin-bottom:10px"><button class="btn green" data-pick="${a.id}">Elegir a ${esc(a.name.split(" ")[0])}</button><button class="btn green" data-pick="${b.id}">Elegir a ${esc(b.name.split(" ")[0])}</button></div>
+<button class="btn alt" data-act="rhdecide">Los dos me sirven: que decida Contratación</button>`;
+};
+
+/* contratación / RH */
+V.rh = () => {
+  const list = S.vacs.filter(v => v.status === "rh" || v.status === "oferta");
+  return `<h1>Contratación</h1><p class="mut">Decisiones que mandan los jefes de área. Aquí se ve sueldo y perfil psicológico.</p>
+${list.length?list.map(v=>{const cs=v.pick.map(id=>S.cands.find(c=>c.id===id)).filter(Boolean);
+return `<div class="card"><div class="cand"><div><b>${esc(v.title)}</b><div class="sm mut">${esc(v.jefe)} · presupuesto ${money(v.min)}–${money(v.max)}</div></div>
+<span class="pill ${v.status==="oferta"?"g":"a"}" style="margin-left:auto">${v.status==="oferta"?"Oferta enviada":cs.length>1?"Decide RH":"Por contratar"}</span></div>
+${cs.map(c=>`<div style="border-top:1px solid var(--line);margin-top:12px;padding-top:12px"><div class="cand">${av(c)}<div><b>${esc(c.name)}</b><div class="sm mut">Pide ${money(c.sueldo)} ${c.sueldo>v.max?'· <span style="color:var(--red)">sobre presupuesto</span>':'· en presupuesto'}</div></div></div>
+${Object.entries(c.rasgos).map(([k,n])=>`<div class="trait"><span class="mut">${k}</span><div class="bar"><i style="width:${n}%"></i></div></div>`).join("")}
+${v.status!=="oferta"?`<button class="btn" data-offer="${v.id}|${c.id}" style="margin-top:10px">Enviar oferta a ${esc(c.name.split(" ")[0])}</button>`:""}</div>`).join("")}</div>`}).join(""):
+`<div class="card empty"><b>Sin pendientes</b><p class="sm">Cuando un jefe elija a alguien o pida que ustedes decidan, aparecerá aquí.</p></div>`}`;
+};
+
+V.metricas = () => {
+  const n = S.cands.length, cumple = S.vacs.reduce((a, v) => a + top5(v).length, 0), fin = S.vacs.reduce((a, v) => a + v.pick.length, 0), of = S.vacs.filter(v => v.status === "oferta").length;
+  const funnel = [["Postulados",n],["Cumplen requisitos",cumple],["Finalistas",fin],["Ofertas",of]];
+  const byArea = Object.entries(AREAS).map(([k,a]) => [a.n, S.cands.filter(c => c.area === k).length]); const mx = Math.max(...byArea.map(x => x[1]));
+  return `<h1>Así va la contratación</h1><p class="mut">Todo en un vistazo para dirección.</p>
+<div class="kpi"><div class="card"><b>6 días</b><span class="sm mut">tiempo promedio para tener finalistas</span></div>
+<div class="card"><b>${n}</b><span class="sm mut">personas en el banco de talento</span></div>
+<div class="card"><b>${S.vacs.filter(v=>v.status!=="cerrada").length}</b><span class="sm mut">vacantes activas</span></div>
+<div class="card"><b>${of}</b><span class="sm mut">ofertas enviadas</span></div></div>
+<h2>Embudo</h2><div class="card">${funnel.map(([l,v])=>`<div style="margin:8px 0"><div class="cand sm"><span>${l}</span><b style="margin-left:auto">${v}</b></div><div class="bar" style="height:12px;margin-top:4px"><i style="width:${n?Math.max(4,v/n*100):0}%"></i></div></div>`).join("")}</div>
+<h2>Candidatos por área</h2><div class="card">${byArea.map(([l,v])=>`<div style="margin:8px 0"><div class="cand sm"><span>${l}</span><b style="margin-left:auto">${v}</b></div><div class="bar" style="height:12px;margin-top:4px"><i style="width:${v/mx*100}%;background:var(--red)"></i></div></div>`).join("")}</div>
+<button class="btn alt" data-go="banco">Abrir banco de talento</button><p class="note">Cifras de ejemplo.</p>`;
+};
+
+V.banco = () => `<h1>Banco de talento</h1><p class="mut">Quien no quedó se queda aquí y aparece solo cuando se abre una vacante parecida.</p>
+<input id="q" placeholder="Buscar por nombre, ciudad o habilidad" value="${esc(S.q||"")}" style="margin-bottom:14px">
+<div id="bl"></div>`;
+function drawBanco(){
+  const q = (S.q || "").toLowerCase(), el = $("#bl"); if (!el) return;
+  const list = S.cands.filter(c => !q || (c.name + c.city + AREAS[c.area].n + Object.keys(c.skills).join(" ")).toLowerCase().includes(q));
+  el.innerHTML = list.length ? list.map(c => `<div class="card"><div class="cand">${av(c)}<div><b>${esc(c.name)}</b>${c.mine?` <span class="pill g">Nuevo</span>`:""}<div class="sm mut">${esc(AREAS[c.area].n)} · ${esc(c.city)}</div></div><span class="pill" style="margin-left:auto">${esc(c.tipo.split(" ")[0])}</span></div></div>`).join("") : `<div class="empty">Nadie coincide con «${esc(S.q)}».</div>`;
+}
+
+V.bienvenida = () => `<div class="hero fade"><h1>Tu próximo trabajo empieza aquí</h1>
+<p>Llena tu solicitud en 3 minutos. Te avisamos por WhatsApp o correo en cada paso, sin tener que estar preguntando.</p>${metro(1, true)}</div>
+<button class="btn" data-go="${S.mine?"mi-postulacion":"registro-1"}" style="margin-bottom:12px">${S.mine?"Ver mi proceso":"Llenar mi solicitud"}</button>
+<div class="card"><b>Áreas con vacantes</b><div class="chips" style="margin-top:10px">${Object.values(AREAS).map(a=>`<span class="pill">${a.n}</span>`).join("")}</div></div>
+<div class="card"><b>Practicantes · Future Minds</b><p class="sm mut" style="margin:6px 0 0">Si eres estudiante, marca lo que ya sabes y lo que quieres aprender. Buscamos actitud, no solo experiencia.</p></div>`;
+
+const ACCESS = [
+  {r:"solicitante",t:"Solicitante",d:"Para quien busca empleo. Llena su solicitud y ve su avance.",c:"var(--blue)"},
+  {r:"ingeniero",t:"Ingeniero que solicita",d:"Para el jefe de área. Crea vacantes y recibe a los mejores 5.",c:"var(--red)"},
+  {r:"empresa",t:"Empresa / Recursos Humanos",d:"Para el dueño o RH. Decide, envía ofertas y ve métricas.",c:"var(--green)"},
+  {r:"presentador",t:"Mi versión completa",d:"Para ti: todos los apartados juntos. Escanéalo con tu celular antes de salir.",c:"var(--ink)"}
+];
+const baseUrl = () => /^https?:$/.test(location.protocol) ? location.origin + location.pathname : (S.pubUrl || "");
+V.compartir = () => `<h1>¿Qué les muestro?</h1><p class="mut">Elige el apartado y deja que lo escaneen. En su celular solo aparece esa parte; tu celular sigue con la versión completa.</p>
+${baseUrl()?"":`<div class="card" style="border:2px solid var(--amber)"><b>Falta la dirección pública</b><p class="sm" style="margin:6px 0 10px">Estás abriendo el archivo desde la computadora. Pega aquí la dirección donde lo publicaste para generar los QR.</p>
+<input id="pub" placeholder="https://tu-sitio.netlify.app" value="${esc(S.pubUrl||"")}"><div style="height:8px"></div><button class="btn" data-act="pub">Generar QR</button></div>`}
+<div class="chips" style="margin-bottom:14px">${ACCESS.map((x,i)=>`<button class="chip ${i===(S.acc||0)?"on":""}" data-acc="${i}">${x.t}</button>`).join("")}</div>
+${(() => { const x = ACCESS[S.acc||0], url = baseUrl() ? baseUrl() + "?v=" + x.r + "&sala=" + S.sala : "";
+  return `<div class="card fade" style="text-align:center;border-top:6px solid ${x.c}"><h2 style="margin:4px 0 6px">${x.t}</h2><p class="sm mut">${x.d}</p>
+  <div class="qr" id="qrbox" data-url="${esc(url)}"></div>
+  ${url?`<p class="sm" style="word-break:break-all;margin:0 0 12px"><a href="${esc(url)}" style="color:var(--blue)">${esc(url)}</a></p>
+  <button class="btn alt" data-act="copy" data-url="${esc(url)}">Copiar link</button>`:""}</div>`; })()}
+<p class="note">Todos los QR comparten la misma sesión de demo: lo que haga uno le llega a los demás. «Reiniciar demo» crea una sesión nueva con QR nuevos.</p>`;
+function drawQR(){
+  const box = $("#qrbox"); if (!box) return; const url = box.dataset.url; box.innerHTML = "";
+  if (!url) { box.innerHTML = `<p style="color:#111;text-align:center;margin:20px 0">El QR aparece cuando el programa está publicado.</p>`; return; }
+  try { box.innerHTML = QR.svg(url); }
+  catch(e) { box.innerHTML = `<p style="color:#111;text-align:center;margin:20px 0">No se pudo dibujar el QR. Usa el link.</p>`; }
+}
+
+V.notificaciones = () => { const html = `<h1>Avisos</h1><p class="mut">Lo mismo llega por WhatsApp o correo a cada persona.</p>
+${mineN().length?mineN().map(n=>`<div class="card"><div class="cand"><span class="pill ${n.who==="Jefe"?"b":n.who==="RH"?"a":"g"}">${esc(n.who)}</span><span class="sm mut" style="margin-left:auto">${esc(n.t)}</span></div><p style="margin:8px 0 0">${esc(n.msg)}</p></div>`).join(""):`<div class="empty">Sin avisos</div>`}`;
+  mineN().forEach(n => n.read = true); save(); badge(); return html; };
+
+/* ---------- render ---------- */
+function render(keep){
+  let r = location.hash.slice(1);
+  if (ROLES[r]) { S.role = r; save(); badge(); return location.replace("#" + ROLES[r].home); }
+  const R = role(); if (!r || !V[r]) r = R.home;
+  if (R.allow && !R.allow.includes(r.split("-")[0])) { return location.replace("#" + R.home); }
+  $("#rp").textContent = R.n; $("#rp").style.display = S.role && S.role !== "presentador" ? "inline-flex" : "none";
+  $("#qrb").style.display = S.role && S.role !== "presentador" ? "none" : "grid";
+  const y = window.scrollY; $("#v").innerHTML = V[r](); tabs(r); window.scrollTo(0, keep ? y : 0);
+  $("#bk").style.display = r === R.home ? "none" : "grid";
+  if (r === "nueva") { drawReqs(); $("#na").onchange = drawReqs; }
+  if (r === "banco") { drawBanco(); $("#q").oninput = e => { S.q = e.target.value; drawBanco(); }; }
+  if (r === "compartir") drawQR();
+  if (r === "registro-1") { $("#fp").onchange = e => { const f = e.target.files[0]; if (!f) return; const img = new Image(); img.onload = () => { const cv = document.createElement("canvas"), k = 160 / Math.max(img.width, img.height); cv.width = img.width*k; cv.height = img.height*k; cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height); D().photo = cv.toDataURL("image/jpeg", .8); save(); render(); }; img.src = URL.createObjectURL(f); }; }
+  if (r === "analizando" && S.anal !== "jefe") runAnalysis();
+}
+function runAnalysis(){
+  const msgs = ["Comparando con las vacantes abiertas…","Revisando requisitos indispensables…","Calculando tu afinidad…"]; let i = 0;
+  const t = setInterval(() => { const el = $("#anl"); if (!el || location.hash !== "#analizando") return clearInterval(t); i++; if (i < msgs.length) el.textContent = msgs[i]; else { clearInterval(t); location.replace("#mi-postulacion"); } }, 900);
+}
+
+function sent(){ if (S.role === "ingeniero") { toast("Listo. Contratación ya recibió tu decisión.", "Ingeniero"); return go("jefe"); } return go("rh"); }
+function submit(){
+  const d = D(); if (!d.ok) return toast("Acepta el aviso de privacidad para enviar.", "Falta un paso");
+  const c = {id:"m"+Date.now(), name:d.name.trim() || "Candidato", city:d.city || "—", area:d.area || "controles", tipo:d.tipo || "Empleado", skills:{...d.skills}, ingles:d.ingles || 0, pasaporte:d.pasaporte, viajar:d.viajar,
+    sueldo:Number(String(d.sueldo).replace(/\D/g,"")) || 0, exp:0, carta:d.carta, rasgos:{"Trabajo en equipo":78,"Iniciativa":84,"Estabilidad":70,"Ideas nuevas":88}, color:"#0a5cff", photo:d.photo, mine:true, stage:2};
+  S.cands = S.cands.filter(x => x.id !== S.mine); S.cands.unshift(c); S.mine = c.id; S.draft = null; S.anal = null; save(); share({type:"cand", c:slimCand(c)});
+  go("analizando");
+  setTimeout(() => {
+    const v = S.vacs.find(v => v.area === c.area && v.status !== "cerrada");
+    if (v && top5(v).some(x => x.c.id === c.id)) { c.stage = 3; save(); share({type:"stage", cid:c.id, stage:3}); notify("Jefe", `Nueva solicitud: ${c.name} quedó entre los 5 mejores para «${v.title}».`); }
+    else notify("Candidato", "Recibimos tu solicitud. Te avisaremos cuando se abra una vacante para ti.");
+  }, 3200);
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("button,[data-go],[data-vac],[data-cand],a"); if (!t) return;
+  const d = t.dataset;
+  if (d.go) { e.preventDefault(); return go(d.go); }
+  if (d.vac) { S.vid = d.vac; save(); return go("vacante"); }
+  if (d.cand) { S.cid = d.cand; S.reveal = null; save(); return go("perfil"); }
+  if (d.area) { D().area = d.area; D().skills = {}; save(); return render(); }
+  if (d.tipo) { D().tipo = d.tipo; save(); return render(); }
+  if (d.lv) { const n = +d.n; if (d.lv === "Inglés") D().ingles = n; else D().skills[d.lv] = n; save();
+    t.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === t)); return; }
+  if (d.next) { const need = (d.need || "").split(",").filter(Boolean); const miss = need.find(k => !String(D()[k] || "").trim());
+    if (miss) return toast({name:"Escribe tu nombre para continuar.",area:"Elige un área.",tipo:"Elige el tipo de puesto."}[miss], "Falta un dato"); return go(d.next); }
+  if (d.pick) { const v = S.vacs.find(x => x.id === S.vid); v.pick = [d.pick]; v.status = "rh"; save(); const c = S.cands.find(x => x.id === d.pick);
+    c.stage = Math.max(c.stage || 1, 4); save(); share({type:"vac", v}); share({type:"stage", cid:c.id, stage:4}); notify("RH", `${v.jefe} eligió a ${c.name} para «${v.title}». Falta enviar oferta.`); return sent(); }
+  if (d.offer) { const [vid, cid] = d.offer.split("|"); const v = S.vacs.find(x => x.id === vid), c = S.cands.find(x => x.id === cid);
+    v.status = "oferta"; v.pick = [cid]; c.stage = 5; c.oferta = `${v.title} · ${money(Math.min(c.sueldo || v.max, v.max))} al mes`; save(); share({type:"vac", v}); share({type:"stage", cid, stage:5, oferta:c.oferta});
+    notify("Candidato", `Oferta enviada a ${c.name}: ${c.oferta}.`); setTimeout(() => notify("Jefe", `Contratación envió la oferta para «${v.title}».`), 2600); return render(); }
+  if (d.acc) { S.acc = +d.acc; save(); return render(); }
+  const act = d.act; if (!act) return;
+  e.preventDefault();
+  if (act === "reset") { const keep = {role:"presentador", pubUrl:S.pubUrl}; S = Object.assign(freshState(), keep); S.sala = rid(); save();
+    history.replaceState(null, "", location.pathname + "?v=presentador&sala=" + S.sala + "#inicio"); return location.reload(); }
+  if (act === "enviar") return submit();
+  if (act === "verjefe") { const c = S.cands.find(x => x.id === S.mine); const v = c && S.vacs.find(v => v.area === c.area); if (v) { S.vid = v.id; save(); } return go("vacante"); }
+  if (act === "publicar") {
+    const list = JSON.parse($("#reqs").dataset.list); const reqs = [];
+    list.forEach((s, i) => { if ($(`[data-rq="${i}"]`).checked) reqs.push({s, l:+$(`[data-rl="${i}"]`).value, m:$(`[data-rm="${i}"]`).value === "1"}); });
+    if (!reqs.length) return toast("Marca al menos un requisito.", "Falta un dato");
+    const v = {id:"v"+Date.now(), title:$("#nt").value.trim() || "Vacante sin nombre", area:$("#na").value, tipo:$("#np").value, jefe:"Tú", min:+$("#nmin").value || 0, max:+$("#nmax").value || 0, visible:$("#nvis").checked, status:"abierta", pick:[], reqs};
+    S.vacs.unshift(v); S.vid = v.id; S.anal = "jefe"; save(); share({type:"vac", v}); go("analizando");
+    setTimeout(() => { S.anal = null; save(); location.replace("#vacante"); const n = top5(v).length; notify("Jefe", n ? `Encontramos ${n} candidatos para «${v.title}».` : `No hay candidatos con las características que buscas para «${v.title}».`); }, 2700);
+    return;
+  }
+  if (act === "cerrar") { const v = S.vacs.find(x => x.id === S.vid); v.status = "cerrada"; save(); share({type:"vac", v}); notify("Candidato", `La vacante «${v.title}» se cerró. Avisamos a quienes se postularon.`); return go("jefe"); }
+  if (act === "reveal") { S.reveal = S.cid; return render(); }
+  if (act === "contra") { const b = $("#contra"); b.style.display = b.style.display === "none" ? "block" : "none"; return; }
+  if (act === "sendcontra") { const c = S.cands.find(x => x.id === S.cid); notify("Candidato", `${c.name.split(" ")[0]} recibió tu contraoferta de ${money($("#cv").value.replace(/\D/g,""))}.`); $("#contra").style.display = "none"; return; }
+  if (act === "elegir") { const v = S.vacs.find(x => x.id === S.vid); v.pick = [S.cid]; v.status = "rh"; const c = S.cands.find(x => x.id === S.cid); c.stage = Math.max(c.stage || 1, 4); save(); share({type:"vac", v}); share({type:"stage", cid:c.id, stage:4});
+    notify("RH", `${v.jefe} eligió a ${c.name} para «${v.title}».`); setTimeout(() => notify("Candidato", `${c.name.split(" ")[0]}, ¡avanzaste! El jefe de área te eligió.`), 2400); return sent(); }
+  if (act === "addcmp") { if (!S.cmp.includes(S.cid)) S.cmp = [...S.cmp, S.cid].slice(-2); save();
+    if (S.cmp.length < 2) return toast("Agregado. Elige otro candidato para comparar.", "Comparar"); return go("comparar"); }
+  if (act === "comparar2") { const v = S.vacs.find(x => x.id === S.vid); S.cmp = top5(v).slice(0, 2).map(x => x.c.id); save(); return go("comparar"); }
+  if (act === "rhdecide") { const v = S.vacs.find(x => x.id === S.vid); v.pick = [...S.cmp]; v.status = "rh"; S.cands.forEach(c => { if (S.cmp.includes(c.id)) { c.stage = Math.max(c.stage || 1, 4); share({type:"stage", cid:c.id, stage:4}); } }); save(); share({type:"vac", v});
+    notify("RH", `${v.jefe} pide que Contratación decida entre 2 finalistas para «${v.title}».`); return sent(); }
+  if (act === "pub") { S.pubUrl = $("#pub").value.trim().replace(/[?#].*$/, ""); save(); return render(); }
+  if (act === "abrir") { S.role = d.r; save(); badge(); return location.replace("#" + ROLES[d.r].home); }
+  if (act === "copy") { const u = d.url; navigator.clipboard?.writeText(u).then(() => toast("Enlace copiado"), () => toast("No se pudo copiar; mantén presionado el enlace.")); return; }
+});
+document.addEventListener("input", e => { const k = e.target.dataset.bind; if (k) { D()[k] = e.target.value; save(); } });
+document.addEventListener("change", e => { const k = e.target.dataset.chk; if (k) { D()[k] = e.target.checked; save(); } });
+$("#bk").onclick = () => history.length > 1 ? history.back() : go("inicio");
+$("#home").onclick = () => go(role().home);
+$("#bell").onclick = () => go("notificaciones");
+$("#qrb").onclick = () => go("compartir");
+window.addEventListener("hashchange", render);
+badge(); render();
+bus = makeBus(TOPIC, onEvt, setConn);
+setTimeout(() => { if ((!S.role || S.role === "presentador") && (!location.hash || location.hash === "#inicio")) toast("Hay 5 candidatos listos para «Ingeniero de Controles Jr».", "Jefe"); }, 1500);
+}
+</script>
+</body>
+</html>
